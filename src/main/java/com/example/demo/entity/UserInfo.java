@@ -1,10 +1,13 @@
 package com.example.demo.entity;
 
 
+import lombok.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author duanxiaoduan
@@ -12,36 +15,38 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "tb_user_info")
-public class UserInfo {
+@Data
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
+@Builder
+public class UserInfo extends AbstractEntity implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
+    /**
+     * 昵称
+     */
     @Column(name = "user_name")
     private String userName;
 
-    public UserInfo() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        UserInfo userInfo = (UserInfo) o;
+        return super.getId().equals(userInfo.getId()) &&
+                userName.equals(userInfo.userName);
     }
 
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.getId(), userName);
     }
 }

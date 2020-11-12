@@ -71,6 +71,9 @@ public class DruidDBConfig {
     @Value("{spring.datasource.connectionProperties}")
     private String connectionProperties;
 
+    @Value("${diy.service}")
+    private String string;
+
     @Bean // 声明其为Bean实例
     @Primary // 在同样的DataSource中，首先使用被标注的DataSource
     public DataSource dataSource() {
@@ -100,7 +103,7 @@ public class DruidDBConfig {
 
         }
         datasource.setConnectionProperties(connectionProperties);
-
+        //System.out.println("1111 -> " + string);
         return datasource;
     }
 }

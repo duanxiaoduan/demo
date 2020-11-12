@@ -101,11 +101,11 @@ public class UniqId {
     }
 
     public String getUniqThreadCode(){
-        String threadCode = StringUtils.left(String.valueOf(Thread.currentThread().hashCode()),9);
+        String threadCode = StringUtils.left(String.valueOf(Thread.currentThread().hashCode()),6);
         if (isOutputInfo) {
             System.out.println("[UniqID.getUniqThreadCode]" +threadCode+"----length:"+threadCode.length());
         }
-        return StringUtils.leftPad(threadCode, 9, "0");
+        return StringUtils.leftPad(threadCode, 6, "0");
     }
 
     /**
@@ -133,7 +133,7 @@ public class UniqId {
     }
 
     private static String timestamp2Datetimes(long timestamp){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         return dateFormat.format(new Date(timestamp));
     }
 

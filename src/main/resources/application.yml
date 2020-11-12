@@ -1,0 +1,109 @@
+
+server:
+  port: 9099
+  tomcat:
+    uri-encoding: UTF-8
+
+#应用健康状况检测
+
+management:
+  health:
+    show-details: always
+    mail:
+      enabled: false
+  server:
+    port: 54001
+  endpoints:
+    shutdown:
+      enabled: true
+
+info:
+  app:
+    name: "@project.name@" #从pom.xml中获取
+    description: "@project.description@"
+    version: "@project.version@"
+    spring-boot-version: "@project.parent.version@"
+
+swagger:
+  show: true
+
+logging:
+  path: log4j2-spring.xml
+  level:
+    root: INFO
+    org.springframework.web: INFO
+
+# 数据库访问配置
+# 主数据源，默认的
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    #url: jdbc:mysql://docker.for.mac.localhost:3306/demo?createDatabaseIfNotExist=true&useUnicode=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/demo?createDatabaseIfNotExist=true&useUnicode=true&useSSL=false&characterEncoding=utf8
+    username: root
+    password: 123456
+    initialSize: 5 # 初始化大小，最小，最大
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000 # 配置获取连接等待超时的时间
+    timeBetweenEvictionRunsMillis: 60000 # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    minEvictableIdleTimeMillis: 300000 # 配置一个连接在池中最小生存的时间，单位是毫秒
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true # 打开PSCache，并且指定每个连接上PSCache的大小
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: stat,wall,log4j2 # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    connectionProperties=druid.stat.mergeSql: true;druid.stat.slowSqlMillis=5000 # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    useGlobalDataSourceStat: true # 合并多个DruidDataSource的监控数据
+
+  #阿里Sentinel 动态限流
+  application:
+    name : bootTest
+  cloud:
+    sentinel:
+      transport:
+        port : 8720
+        dashboard : localhost:58084
+
+# common spring boot settings
+
+#  redis:
+#    database: 1
+#    host: redis://127.0.0.1
+#    port: 6379
+#    password:
+#    ssl:
+#    timeout:
+#    cluster.nodes:
+#    sentinel.master:
+#    sentinel.nodes:
+
+  # HTTP encoding (HttpEncodingProperties)
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+#JPA Configuration:
+  jpa:
+    database: MYSQL
+    show-sql: false # Show or not log for each sql query
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update # Hibernate ddl auto (create, create-drop, update)
+      naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      #hbm2ddl.auto: none
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect #spring.jpa.database=org.hibernate.dialect.MySQL5InnoDBDialect
+
+  data:
+    mongodb:
+      uri: mongodb://192.168.120.133:27017/test
+      #uri: mongodb://fzmongo001.mongodb.rds.aliyuncs.com:3717/ywxt
+
+diy:
+  service: 2222

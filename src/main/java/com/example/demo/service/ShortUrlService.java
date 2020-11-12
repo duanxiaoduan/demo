@@ -1,16 +1,14 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.UserInfo;
 import com.example.demo.service.base.AbstractService;
-import org.slf4j.Logger;
 
 import java.util.Optional;
 
 /**
  * @author duanxiaoduan
- * @version 2018/3/29
+ * @version 2020/1/2
  */
-public interface UserInfoService<T> extends AbstractService {
+public interface ShortUrlService<T> extends AbstractService {
 
     /**
      * findById
@@ -29,19 +27,10 @@ public interface UserInfoService<T> extends AbstractService {
     Optional<T> save(T t);
 
     /**
-     * delete
+     * findByShortUrl
      *
-     * @param id
-     */
-    void delete(final Long id);
-
-    /**
-     * sqrt
-     * @param a
+     * @param shortUrl
      * @return
      */
-    default double sqrt(int a) {
-        return Math.sqrt(a);
-    }
-
+    Optional<T> findByShortUrl(final String shortUrl);
 }
